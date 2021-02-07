@@ -26,42 +26,22 @@ namespace ConsoleUI
 
                 switch (select)
                 {
-                    case 1: CarsList(carManager); break;
-                    case 2: AddCar(carManager); break;
-                    case 3: CarUpdate(carManager); break;
-                    case 4: DeleteCar(carManager); break;
-                    case 5: BrandsList(brandManager); break;
-                    case 6: AddBrand(brandManager); break;
-                    case 7: BrandUpdate(brandManager); break;
-                    case 8: DeleteBrand(brandManager); break;
-                    case 9: ColorsList(colorManager); break;
-                    case 10: AddColor(colorManager); break;
-                    case 11: UpdateColor(colorManager); break;
-                    case 12: DeleteColor(colorManager); break;
-                    case 13: finfis = false; break;
+                    case 1:  CarsList(carManager);              break;
+                    case 2:  AddCar(carManager);                break;
+                    case 3:  CarUpdate(carManager);             break;
+                    case 4:  DeleteCar(carManager);             break;
+                    case 5:  BrandsList(brandManager);          break;
+                    case 6:  AddBrand(brandManager);            break;
+                    case 7:  BrandUpdate(brandManager);         break;
+                    case 8:  DeleteBrand(brandManager);         break;
+                    case 9:  ColorsList(colorManager);          break;
+                    case 10: AddColor(colorManager);            break;
+                    case 11: UpdateColor(colorManager);         break;
+                    case 12: DeleteColor(colorManager);         break;
+                    case 13: finfis = false;                    break;
                     default: Console.WriteLine("Lütfen 1-13 arasında bir değer giriniz."); break;
                 }
             }
-
-
-
-
-
-
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-
 
         }
 
@@ -191,7 +171,7 @@ namespace ConsoleUI
             foreach (var cars in carManager.GetCarDetails())
             {
                 Console.WriteLine("CarId: " + cars.CarId + ",  Car Daily Price: " + cars.DailyPrice + ",  Car Color: " + cars.ColorName);
-                Console.WriteLine(cars.BrandName + cars.Description);
+                Console.WriteLine("Car Name: " + cars.BrandName + cars.Description);
             }
         }
     }
