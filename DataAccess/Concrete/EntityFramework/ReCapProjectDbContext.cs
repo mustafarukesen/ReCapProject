@@ -10,7 +10,7 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectsV13;Database=Northwind;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectsV13;Database=ReCapDb;Trusted_Connection=true");
         }
             
 
