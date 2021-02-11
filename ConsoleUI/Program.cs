@@ -160,27 +160,60 @@ namespace ConsoleUI
 
         private static void ColorsList(ColorManager colorManager)
         {
-            foreach (var colors in colorManager.GetAll())
+            var result = colorManager.GetAll();
+
+            if (result.Success == true)
             {
-                Console.WriteLine(colors.ColorId + " ----- " + colors.ColorName);
+                foreach (var colors in result.Data)
+                {
+                    Console.WriteLine(colors.ColorId + " ----- " + colors.ColorName);
+                }
             }
+
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            
         }
 
         private static void BrandsList(BrandManager brandManager)
         {
-            foreach (var brands in brandManager.GetAll())
+            var result = brandManager.GetAll();
+
+            if (result.Success == true)
             {
-                Console.WriteLine(brands.BrandId + " ----- " + brands.BrandName);
+                foreach (var brands in result.Data)
+                {
+                    Console.WriteLine(brands.BrandId + " ----- " + brands.BrandName);
+                }
             }
+
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            
         }
 
         private static void CarsList(CarManager carManager)
         {
-            foreach (var cars in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+
+            if (result.Success == true)
             {
-                Console.WriteLine("CarId: " + cars.CarId + "\nCar Daily Price: " + cars.DailyPrice + "\nCar Color: " + cars.ColorName);
-                Console.WriteLine("Car Name: " + cars.BrandName + "\nModelName: " + cars.ModelName + "\n" + "CarDescription: " + cars.Description + "\n");
+                foreach (var cars in result.Data)
+                {
+                    Console.WriteLine("CarId: " + cars.CarId + "\nCar Daily Price: " + cars.DailyPrice + "\nCar Color: " + cars.ColorName);
+                    Console.WriteLine("Car Name: " + cars.BrandName + "\nModelName: " + cars.ModelName + "\n" + "CarDescription: " + cars.Description + "\n");
+                }
             }
+
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+            
         }
     }
 }

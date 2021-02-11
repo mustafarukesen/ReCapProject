@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,46 +18,52 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
-        /////////////////////
+        /*******************************************************************/
 
-        public void Add(Brand brand)
+        public IResult Add(Brand brand)
         {
             if (brand.BrandName.Length >=2)
             {
                 _brandDal.Add(brand);
+                return new SuccessResult(Messages.BrandAdded);
             }
-            else
-            {
-                Console.WriteLine("Lütfen karakter uzunluğu '2' den büyük bir değer giriniz.");
-            }
+
+            return new ErrorResult(Messages.Invalid);
         }
-        public void Update(Brand brand)
+        public IResult Update(Brand brand)
         {
             if (brand.BrandName.Length>=2)
             {
                 _brandDal.Update(brand);
+                return new SuccessResult(Messages.BrandUpdated);
             }
-            else
+
+            return new ErrorResult(Messages.Invalid);
+        }
+
+        public IResult Delete(Brand brand)
+        {
+            foreach (var _brand in _brandDal.GetAll())
             {
-                Console.WriteLine("Lütfen karakter uzunluğu '2' den büyük bir değer giriniz.");
+                if (_brand.BrandId == brand.BrandId)
+                {
+                    _brandDal.Delete(_brand);
+                    return new SuccessResult(Messages.BrandDeleted);
+                }
             }
+            return new ErrorResult(Messages.Invalid);
         }
 
-        public void Delete(Brand brand)
+        /*******************************************************************/
+
+        public IDataResult<Brand> GetById(int brandId)
         {
-            _brandDal.Delete(brand);
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == brandId));
         }
 
-        /////////////////////
-        
-        public Brand GetById(int id)
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.Get(b => b.BrandId == id);
-        }
-
-        public List<Brand> GetAll()
-        {
-            return _brandDal.GetAll();
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandList);
         }
 
     }
