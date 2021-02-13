@@ -66,19 +66,6 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarList);
         }
-        public IDataResult<List<Car>> GetByModelYear(int year)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelYear == year), Messages.CarModelYear);
-        }
-        public IDataResult<List<Car>> GetByModelName(string model)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ModelName == model), Messages.CarModelName);
-        }
-
-        public IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c=> c.DailyPrice>=min && c.DailyPrice<=max), Messages.CarDailyPrice);
-        }
 
         /*******************************************************************/
 
@@ -87,17 +74,5 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarDetail);
         }
 
-        /*******************************************************************/
-
-        public IDataResult<List<Car>> GetCarsByBrandId(int id)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c=> c.BrandId == id));
-        }
-
-        public IDataResult<List<Car>> GetCarsByColorId(int id)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id));
-        }
-       
     }
 }
