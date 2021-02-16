@@ -6,6 +6,8 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
@@ -23,11 +25,18 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            _rentalDal.Add(rental);
+            if (rental.ReturnDate == null && _rentalDal.GetRentalDetails(r=> r.CarId == rental.CarId).Count > 0)
+            {
+                return new ErrorResult(Messages.RentalAddedError);
+            }
+            _rentalDal.Add(rental); 
             return new SuccessResult(Messages.RentalAdded);
+            
         }
+
         public IResult Update(Rental rental)
         {
+
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
         }
@@ -52,9 +61,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalList);
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.RentalDetail);
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(filter), Messages.RentalDetail);
         }
 
     }

@@ -27,39 +27,76 @@ namespace ConsoleUI
                 Console.WriteLine("1-Tüm Araç Bilgilerini Gör \n2-Araç Ekle \n3-Araç Güncelle \n4-Araç Sil \n");
                 Console.WriteLine("5-Tüm Marka Bilgilerini Gör \n6-Marka Ekle \n7-Marka Güncelle \n8-Marka Sil \n");
                 Console.WriteLine("9-Tüm Renk Bilgilerini Gör \n10-Renk Ekle \n11-Renk Güncelle \n12-Renk Sil \n");
-                Console.WriteLine("13-Tüm Kullanıcı Bilgilerini Gör \n14-Kullanıcı Ekle \n15-Kullanıcı Güncelle \n16-Kullanıcı Sil \n\n17-Tüm Müşteri Bilgilerini Gör \n");
-                Console.WriteLine("18-Tüm Kiralama Bilgilerini Gör \n19-Kiralama Ekle \n20-Kiralama Güncelle \n21-Kiralama Sil  \n22-Çıkış \n");
+                Console.WriteLine("13-Tüm Kullanıcı Bilgilerini Gör \n14-Kullanıcı Ekle \n15-Kullanıcı Güncelle \n16-Kullanıcı Sil \n\n17-Tüm Müşteri Bilgilerini Gör \n18-Müşteri Ekle \n");
+                Console.WriteLine("\n19-Tüm Kiralama Bilgilerini Gör \n20-Kiralama Ekle \n21-Kiralama Güncelle \n22-Kiralama Sil \n23-Geri Getirme Tarihi Ekle  \n\n24-Çıkış \n");
                 int select = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
 
                 switch (select)
                 {
-                    case 1: CarsList(carManager);                                          break;
-                    case 2: AddCar(carManager, brandManager, colorManager);                break;
-                    case 3: UpdateCar(carManager, brandManager, colorManager);             break;
-                    case 4: DeleteCar(carManager);                                         break;
-                    case 5: BrandsList(brandManager);                                      break;
-                    case 6: AddBrand(brandManager);                                        break;
-                    case 7: UpdateBrand(brandManager);                                     break;
-                    case 8: DeleteBrand(brandManager);                                     break;
-                    case 9: ColorsList(colorManager);                                      break;
-                    case 10: AddColor(colorManager);                                       break;
-                    case 11: UpdateColor(colorManager);                                    break;
-                    case 12: DeleteColor(colorManager);                                    break;
-                    case 13: UsersList(userManager);                                       break;
-                    case 14: AddUser(userManager);                                         break;
-                    case 15: UpdateUser(userManager);                                      break;
-                    case 16: DeleteUser(userManager);                                      break;
-                    case 17: CustomersList(customerManager);                               break;
-                    case 18: RentalsList(rentalManager);                                   break;
-                    case 19: AddRental(carManager, rentalManager);                         break;
-                    case 20: UpdateRental(carManager, rentalManager);                      break;
-                    case 21: DeleteRental(rentalManager);                                  break;
-                    case 22: finfis = false;                                               break;
-                    default: Console.WriteLine("Lütfen 1-13 arasında bir değer giriniz."); break;
+                    case 1:  CarsList(carManager);                                               break;
+                    case 2:  AddCar(carManager, brandManager, colorManager);                     break;
+                    case 3:  UpdateCar(carManager, brandManager, colorManager);                  break;
+                    case 4:  DeleteCar(carManager);                                              break;
+                    case 5:  BrandsList(brandManager);                                           break;
+                    case 6:  AddBrand(brandManager);                                             break;
+                    case 7:  UpdateBrand(brandManager);                                          break;
+                    case 8:  DeleteBrand(brandManager);                                          break;
+                    case 9:  ColorsList(colorManager);                                           break;
+                    case 10: AddColor(colorManager);                                             break;
+                    case 11: UpdateColor(colorManager);                                          break;
+                    case 12: DeleteColor(colorManager);                                          break;
+                    case 13: UsersList(userManager);                                             break;
+                    case 14: AddUser(userManager);                                               break;
+                    case 15: UpdateUser(userManager);                                            break;
+                    case 16: DeleteUser(userManager);                                            break;
+                    case 17: CustomersList(customerManager);                                     break;
+                    case 18: AddCustomer(customerManager, userManager);                          break;
+                    case 19: RentalsList(rentalManager);                                         break;
+                    case 20: AddRental(carManager, rentalManager, customerManager, userManager); break;
+                    //case 21: UpdateRental(carManager, rentalManager, customerManager);         break;
+                    case 22: DeleteRental(rentalManager);                                        break;
+                    case 24: finfis = false;                                                     break;
+                    case 23: UpdateReturnDate(rentalManager);                                    break;
+                    default: Console.WriteLine("Lütfen 1-13 arasında bir değer giriniz.");       break;
                 }
-            }           
+            }
 
+            
+        }
+
+        private static void UpdateReturnDate(RentalManager rentalManager)
+        {
+            RentalsList(rentalManager);
+            Console.WriteLine("Lütfen hangi kiralamaya geri getirme tarihi eklemek istiyorsanız 'rentalId'sini giriniz: ");
+            int updateRental = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+
+            //Console.WriteLine("Lütfen 'son kiralanma tarihi' giriniz: ");
+            //DateTime updateReturnDate = Convert.ToDateTime(Console.ReadLine());
+            //Console.Clear();
+            //story.modifiedDate = DateTime.Now;
+            //var story = _db.ArticleSet.First(a => a.storyId == ArticleToEdit.storyId);
+            rentalManager.Update(new Rental { RentalId = updateRental, ReturnDate = DateTime.Now });
+        }
+
+        private static void AddCustomer(CustomerManager customerManager, UserManager userManager)
+        {
+            Console.WriteLine("Şirket varsa '1' yoksa '2' giriniz: ");
+            int company = Convert.ToInt32(Console.ReadLine());
+            switch (company)
+            {
+                case 1:
+                    Console.WriteLine("Lütfen şirket adınızı giriniz: ");                                                   string addCustomerCompany = Console.ReadLine();
+                    UsersList(userManager); Console.WriteLine("Lütfen aracı kiralayan kullanıcının 'id'sini giriniz");      int selectUser = Convert.ToInt32(Console.ReadLine());
+                    customerManager.Add(new Customer { UserId = selectUser, CompanyName = addCustomerCompany });
+                    Console.Clear(); break;
+                case 2:
+                    UsersList(userManager); Console.WriteLine("Lütfen aracı kiralayan kullanıcının 'id'sini giriniz");      int selectUser1 = Convert.ToInt32(Console.ReadLine());
+                    customerManager.Add(new Customer { UserId = selectUser1 });
+                    Console.Clear(); break;
+                default: Console.WriteLine("Yanlış girdiniz!"); break;
+            }
         }
 
         private static void DeleteRental(RentalManager rentalManager)
@@ -71,29 +108,52 @@ namespace ConsoleUI
             rentalManager.Delete(new Rental { RentalId = deleteRental });
         }
 
-        private static void UpdateRental(CarManager carManager, RentalManager rentalManager)
-        {
-            RentalsList(rentalManager);
-            Console.WriteLine("Lütfen güncellemek istediğiniz kiralamanın 'id'sini giriniz: ");
-            int updateRental = Convert.ToInt32(Console.ReadLine());
-            Console.Clear();
-            CarsList(carManager);
-            Console.WriteLine("Lütfen kiralanan aracın güncellemek için 'id'sini giriniz: ");
-            int updateCar = Convert.ToInt32(Console.ReadLine());
-            Console.Clear();
-            rentalManager.Update(new Rental { RentalId = updateRental, CarId = updateCar });
-        }
+        //private static void UpdateRental(CarManager carManager, RentalManager rentalManager, CustomerManager customerManager)
+        //{
+        //    RentalsList(rentalManager);
+        //    Console.WriteLine("Lütfen güncellemek istediğiniz kiralamanın 'id'sini giriniz: ");
+        //    int updateRental = Convert.ToInt32(Console.ReadLine());
+        //    Console.Clear();
 
-        private static void AddRental(CarManager carManager, RentalManager rentalManager)
+        //    CarsList(carManager);
+        //    Console.WriteLine("Lütfen kiralanan aracı güncellemek için 'id'sini giriniz: ");
+        //    int updateCar = Convert.ToInt32(Console.ReadLine());
+        //    Console.Clear();
+
+        //    Console.WriteLine("Lütfen güncellenen 'kiralanma tarihi'ni giriniz: ");
+        //    DateTime updateRent = Convert.ToDateTime(Console.ReadLine());
+        //    Console.Clear();
+
+        //    Console.WriteLine("Lütfen güncellenen 'geri getirme tarihini'ni giriniz: ");
+        //    DateTime updateReturn = Convert.ToDateTime(Console.ReadLine());
+        //    Console.Clear();
+
+        //    CustomersList(customerManager);
+        //    Console.WriteLine("Lütfen kiraladığınız müşterinin 'id'sini giriniz: ");
+        //    int updateCustomer = Convert.ToInt32(Console.ReadLine());
+        //    Console.Clear();
+
+        //    rentalManager.Update(new Rental { RentalId = updateRental, CarId = updateCar, RentDate = updateRent, ReturnDate = updateReturn, CustomerId = updateCustomer});
+        //}
+
+        private static void AddRental(CarManager carManager, RentalManager rentalManager, CustomerManager customerManager, UserManager userManager)
         {
 
             CarsList(carManager);
             Console.WriteLine("Lütfen kiralamak istediğiniz aracın 'id'sini giriniz: ");
             int addCar = Convert.ToInt32(Console.ReadLine());
+            //rentalManager.ChechReturnDate(addCar);
             Console.Clear();
-            DateTime addRent = DateTime.Now;
-            DateTime addReturn = DateTime.Now.AddDays(1);
-            rentalManager.Add(new Rental { CarId = addCar, RentDate = addRent, ReturnDate = addReturn });
+
+            Console.WriteLine("Lütfen 'kiralanan tarihi' giriniz: ");
+            DateTime addRent = Convert.ToDateTime(Console.ReadLine());
+            Console.Clear();
+
+            CustomersList(customerManager);
+            Console.WriteLine("Lütfen kiraladığınız müşterinin 'id'sini giriniz: ");
+            int addCustomer = Convert.ToInt32(Console.ReadLine());  
+            rentalManager.Add(new Rental { CarId = addCar, RentDate = addRent, CustomerId = addCustomer , ReturnDate = null });
+            
         }
 
         private static void DeleteUser(UserManager userManager)
@@ -102,6 +162,7 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen silmek istediğiniz kullanıcının 'id' sini giriniz: ");
             int deleteUser = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             userManager.Delete(new User { UserId = deleteUser });
         }
 
@@ -111,15 +172,20 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen güncellemek istediğiniz kullanıcının 'id'sini giriniz: ");
             int updateUser = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             Console.WriteLine("Kullanıcının 'adı'nı giriniz: ");
             string updateFirstName = Console.ReadLine();
+
             Console.WriteLine("Kullanıcının 'soyadı'nı giriniz: ");
             string updateLastName = Console.ReadLine();
+
             Console.WriteLine("Kullanıcının 'email'ini giriniz: ");
             string updateEmail = Console.ReadLine();
+
             Console.WriteLine("Kullanıcının 'şifre'sini giriniz: ");
             string updatePassword = Console.ReadLine();
             Console.Clear();
+
             userManager.Update(new User { UserId = updateUser, FirstName = updateFirstName, LastName = updateLastName, Email = updateEmail, Password = updatePassword });
         }
 
@@ -128,13 +194,17 @@ namespace ConsoleUI
             UsersList(userManager);
             Console.WriteLine("Lütfen eklemek istediğiniz kullanıcının 'adı'nı giriniz: ");
             string addFirstName = Console.ReadLine();
+
             Console.WriteLine("Lütfen eklemek istediğiniz kullanıcının 'soyadı'nı giriniz: ");
             string addLastName = Console.ReadLine();
+
             Console.WriteLine("Lütfen eklemek istediğiniz kullanıcının 'email'ini giriniz: ");
             string addEmail = Console.ReadLine();
+
             Console.WriteLine("Lütfen eklemek istediğiniz kullanıcının 'şifre'sini giriniz: ");
             string addPassword = Console.ReadLine();
             Console.Clear();
+
             userManager.Add(new User { FirstName = addFirstName, LastName = addLastName, Email = addEmail, Password = addPassword });
         }
 
@@ -199,6 +269,7 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen silmek istediğiniz rengin 'id' sini giriniz: ");
             int deleteColor = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             colorManager.Delete(new Color { ColorId = deleteColor });
         }
 
@@ -208,9 +279,11 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen güncellemek istediğiniz rengin 'id' sini giriniz: ");
             int updateColor = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             Console.WriteLine("Lütfen güncellemek istediğiniz 'rengin ismini' giriniz: ");
             string updateColorName = Console.ReadLine();
             Console.Clear();
+
             colorManager.Update(new Color { ColorId = updateColor, ColorName = updateColorName });
         }
 
@@ -220,6 +293,7 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen eklemek istediğiniz 'rengin ismini' giriniz: ");
             string addColorName = Console.ReadLine();
             Console.Clear();
+
             colorManager.Add(new Color { ColorName = addColorName });
         }
 
@@ -229,6 +303,7 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen silmek istediğiniz marka 'id' sini giriniz: ");
             int deleteBrand = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             brandManager.Delete(new Brand { BrandId = deleteBrand });
         }
 
@@ -238,9 +313,11 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen güncellemek istediğiniz marka 'id' sini giriniz: ");
             int updateBrand = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             Console.WriteLine("Lütfen eklemek istediğiniz 'marka ismini' giriniz: ");
             string updateBrandName = Console.ReadLine();
             Console.Clear();
+
             brandManager.Update(new Brand { BrandId = updateBrand, BrandName = updateBrandName });
         }
 
@@ -250,6 +327,7 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen eklemek istediğiniz marka ismini giriniz: ");
             string addBrandName = Console.ReadLine();
             Console.Clear();
+
             brandManager.Add(new Brand { BrandName = addBrandName });
         }
 
@@ -259,6 +337,7 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen silmek istediğiniz aracın 'id' sini giriniz: ");
             int deleteCar = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             carManager.Delete(new Car { CarId = deleteCar });
         }
 
@@ -268,21 +347,28 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen güncellemek istediğiniz aracın 'id' sini giriniz: ");
             int updateCar = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             BrandsList(brandManager);
             Console.WriteLine("Aracın 'BrandId'sini giriniz: ");
             int updateBrandId = Convert.ToInt32(Console.ReadLine());
+
             Console.WriteLine("Aracın 'CarName'ini giriniz");
             string updateCarName = Console.ReadLine();
+
             ColorsList(colorManager);
             Console.WriteLine("Aracın 'ColorId'sini giriniz: ");
             int updateColorId = Convert.ToInt32(Console.ReadLine());
+
             Console.WriteLine("Aracın 'Model Year'ını giriniz:");
             int updateModelYear = Convert.ToInt32(Console.ReadLine());
+
             Console.WriteLine("Aracın 'Daily Price'ını giriniz:");
             decimal updateDailyPrice = Convert.ToDecimal(Console.ReadLine());
+
             Console.WriteLine("Aracın 'Description'ını giriniz:");
             string updateDescription = Console.ReadLine();
             Console.Clear();
+
             carManager.Update(new Car { CarId = updateCar, BrandId = updateBrandId, CarName= updateCarName, ColorId = updateColorId, ModelYear = updateModelYear, DailyPrice = updateDailyPrice, Description = updateDescription });
         }
 
@@ -291,18 +377,24 @@ namespace ConsoleUI
             BrandsList(brandManager);
             Console.WriteLine("Aracın 'BrandId'sini giriniz: ");
             int addBrandId = Convert.ToInt32(Console.ReadLine());
+
             Console.WriteLine("Aracın 'CarName'ini giriniz: ");
             string addCarName = Console.ReadLine();
+
             ColorsList(colorManager);
             Console.WriteLine("Aracın 'ColorId'sini giriniz: ");
             int addColorId = Convert.ToInt32(Console.ReadLine());
+
             Console.WriteLine("Aracın 'Model Year'ını giriniz: ");
             int addModelYear = Convert.ToInt32(Console.ReadLine());
+
             Console.WriteLine("Aracın 'Daily Price'ını giriniz: ");
             decimal addDailyPrice = Convert.ToDecimal(Console.ReadLine());
+
             Console.WriteLine("Aracın 'Description'ını giriniz: ");
             string addDescription = Console.ReadLine();
             Console.Clear();
+
             carManager.Add(new Car { BrandId = addBrandId, CarName= addCarName, ColorId = addColorId, ModelYear = addModelYear, DailyPrice = addDailyPrice, Description = addDescription });
         }
 
