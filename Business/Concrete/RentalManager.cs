@@ -25,19 +25,37 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            if (rental.ReturnDate == null && _rentalDal.GetRentalDetails(r=> r.CarId == rental.CarId).Count > 0)
+            var result = _rentalDal.GetAll(r => r.CarId == rental.CarId && r.ReturnDate == null);
+            if (result.Count > 0)
             {
                 return new ErrorResult(Messages.RentalAddedError);
             }
-            _rentalDal.Add(rental); 
+            _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
-            
+
         }
 
         public IResult Update(Rental rental)
         {
 
             _rentalDal.Update(rental);
+            return new SuccessResult(Messages.RentalUpdated);
+        }
+
+        public IResult UpdateReturnDate(int rentalId)
+        {
+            var result = _rentalDal.GetAll(x => x.RentalId == rentalId);
+            var updatedRental = result.LastOrDefault();
+            if (updatedRental.ReturnDate != null)
+            {
+                return new ErrorResult(Messages.Invalid);
+            }
+            Console.WriteLine("Lütfen geri getirme tarihini giriniz: ");
+            DateTime? updateReturnDate = Convert.ToDateTime(Console.ReadLine());
+            Console.Clear();
+
+            updatedRental.ReturnDate = updateReturnDate;
+            _rentalDal.Update(updatedRental);
             return new SuccessResult(Messages.RentalUpdated);
         }
 
@@ -61,9 +79,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalList);
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(filter), Messages.RentalDetail);
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.RentalDetail);
         }
 
     }

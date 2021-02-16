@@ -28,7 +28,7 @@ namespace ConsoleUI
                 Console.WriteLine("5-Tüm Marka Bilgilerini Gör \n6-Marka Ekle \n7-Marka Güncelle \n8-Marka Sil \n");
                 Console.WriteLine("9-Tüm Renk Bilgilerini Gör \n10-Renk Ekle \n11-Renk Güncelle \n12-Renk Sil \n");
                 Console.WriteLine("13-Tüm Kullanıcı Bilgilerini Gör \n14-Kullanıcı Ekle \n15-Kullanıcı Güncelle \n16-Kullanıcı Sil \n\n17-Tüm Müşteri Bilgilerini Gör \n18-Müşteri Ekle \n");
-                Console.WriteLine("\n19-Tüm Kiralama Bilgilerini Gör \n20-Kiralama Ekle \n21-Kiralama Güncelle \n22-Kiralama Sil \n23-Geri Getirme Tarihi Ekle  \n\n24-Çıkış \n");
+                Console.WriteLine("\n19-Tüm Kiralama Bilgilerini Gör \n20-Kiralama Ekle \n21-Kiralama Sil \n22-Geri Getirme Tarihi Ekle  \n\n23-Çıkış \n");
                 int select = Convert.ToInt32(Console.ReadLine());
                 Console.Clear();
 
@@ -53,11 +53,10 @@ namespace ConsoleUI
                     case 17: CustomersList(customerManager);                                     break;
                     case 18: AddCustomer(customerManager, userManager);                          break;
                     case 19: RentalsList(rentalManager);                                         break;
-                    case 20: AddRental(carManager, rentalManager, customerManager, userManager); break;
-                    //case 21: UpdateRental(carManager, rentalManager, customerManager);         break;
-                    case 22: DeleteRental(rentalManager);                                        break;
-                    case 24: finfis = false;                                                     break;
-                    case 23: UpdateReturnDate(rentalManager);                                    break;
+                    case 20: AddRental(carManager, rentalManager, customerManager);              break;
+                    case 21: DeleteRental(rentalManager);                                        break;
+                    case 22: UpdateReturnDate(rentalManager);                                    break;
+                    case 23: finfis = false;                                                     break;
                     default: Console.WriteLine("Lütfen 1-13 arasında bir değer giriniz.");       break;
                 }
             }
@@ -67,35 +66,40 @@ namespace ConsoleUI
 
         private static void UpdateReturnDate(RentalManager rentalManager)
         {
+            Console.WriteLine("*********** - Lütfen kiraladığınız kişi arabayı getirdiğinde burayı kullanınız. - ***********");
             RentalsList(rentalManager);
-            Console.WriteLine("Lütfen hangi kiralamaya geri getirme tarihi eklemek istiyorsanız 'rentalId'sini giriniz: ");
+            Console.WriteLine("\nLütfen hangi kiralamaya geri getirme tarihi eklemek istiyorsanız 'rentalId'sini giriniz: ");
             int updateRental = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
 
-            //Console.WriteLine("Lütfen 'son kiralanma tarihi' giriniz: ");
-            //DateTime updateReturnDate = Convert.ToDateTime(Console.ReadLine());
-            //Console.Clear();
-            //story.modifiedDate = DateTime.Now;
-            //var story = _db.ArticleSet.First(a => a.storyId == ArticleToEdit.storyId);
-            rentalManager.Update(new Rental { RentalId = updateRental, ReturnDate = DateTime.Now });
+            rentalManager.UpdateReturnDate(updateRental);
         }
 
         private static void AddCustomer(CustomerManager customerManager, UserManager userManager)
         {
             Console.WriteLine("Şirket varsa '1' yoksa '2' giriniz: ");
             int company = Convert.ToInt32(Console.ReadLine());
+
             switch (company)
             {
                 case 1:
-                    Console.WriteLine("Lütfen şirket adınızı giriniz: ");                                                   string addCustomerCompany = Console.ReadLine();
-                    UsersList(userManager); Console.WriteLine("Lütfen aracı kiralayan kullanıcının 'id'sini giriniz");      int selectUser = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Lütfen şirket adınızı giriniz: ");                                                   
+                    string addCustomerCompany = Console.ReadLine();
+
+                    UsersList(userManager); Console.WriteLine("Lütfen aracı kiralayan kullanıcının 'id'sini giriniz");      
+                    int selectUser = Convert.ToInt32(Console.ReadLine());
+
                     customerManager.Add(new Customer { UserId = selectUser, CompanyName = addCustomerCompany });
                     Console.Clear(); break;
+
                 case 2:
-                    UsersList(userManager); Console.WriteLine("Lütfen aracı kiralayan kullanıcının 'id'sini giriniz");      int selectUser1 = Convert.ToInt32(Console.ReadLine());
+                    UsersList(userManager); Console.WriteLine("Lütfen aracı kiralayan kullanıcının 'id'sini giriniz");      
+                    int selectUser1 = Convert.ToInt32(Console.ReadLine());
+
                     customerManager.Add(new Customer { UserId = selectUser1 });
                     Console.Clear(); break;
-                default: Console.WriteLine("Yanlış girdiniz!"); break;
+
+                default: Console.WriteLine("Yanlış sayı girdiniz!"); break;
             }
         }
 
@@ -105,44 +109,16 @@ namespace ConsoleUI
             Console.WriteLine("Lütfen silmek istediğiniz kiralamanın 'id' sini giriniz: ");
             int deleteRental = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
+
             rentalManager.Delete(new Rental { RentalId = deleteRental });
         }
 
-        //private static void UpdateRental(CarManager carManager, RentalManager rentalManager, CustomerManager customerManager)
-        //{
-        //    RentalsList(rentalManager);
-        //    Console.WriteLine("Lütfen güncellemek istediğiniz kiralamanın 'id'sini giriniz: ");
-        //    int updateRental = Convert.ToInt32(Console.ReadLine());
-        //    Console.Clear();
-
-        //    CarsList(carManager);
-        //    Console.WriteLine("Lütfen kiralanan aracı güncellemek için 'id'sini giriniz: ");
-        //    int updateCar = Convert.ToInt32(Console.ReadLine());
-        //    Console.Clear();
-
-        //    Console.WriteLine("Lütfen güncellenen 'kiralanma tarihi'ni giriniz: ");
-        //    DateTime updateRent = Convert.ToDateTime(Console.ReadLine());
-        //    Console.Clear();
-
-        //    Console.WriteLine("Lütfen güncellenen 'geri getirme tarihini'ni giriniz: ");
-        //    DateTime updateReturn = Convert.ToDateTime(Console.ReadLine());
-        //    Console.Clear();
-
-        //    CustomersList(customerManager);
-        //    Console.WriteLine("Lütfen kiraladığınız müşterinin 'id'sini giriniz: ");
-        //    int updateCustomer = Convert.ToInt32(Console.ReadLine());
-        //    Console.Clear();
-
-        //    rentalManager.Update(new Rental { RentalId = updateRental, CarId = updateCar, RentDate = updateRent, ReturnDate = updateReturn, CustomerId = updateCustomer});
-        //}
-
-        private static void AddRental(CarManager carManager, RentalManager rentalManager, CustomerManager customerManager, UserManager userManager)
+        private static void AddRental(CarManager carManager, RentalManager rentalManager, CustomerManager customerManager)
         {
 
             CarsList(carManager);
             Console.WriteLine("Lütfen kiralamak istediğiniz aracın 'id'sini giriniz: ");
             int addCar = Convert.ToInt32(Console.ReadLine());
-            //rentalManager.ChechReturnDate(addCar);
             Console.Clear();
 
             Console.WriteLine("Lütfen 'kiralanan tarihi' giriniz: ");
@@ -151,7 +127,9 @@ namespace ConsoleUI
 
             CustomersList(customerManager);
             Console.WriteLine("Lütfen kiraladığınız müşterinin 'id'sini giriniz: ");
-            int addCustomer = Convert.ToInt32(Console.ReadLine());  
+            int addCustomer = Convert.ToInt32(Console.ReadLine());
+            Console.Clear();
+
             rentalManager.Add(new Rental { CarId = addCar, RentDate = addRent, CustomerId = addCustomer , ReturnDate = null });
             
         }
