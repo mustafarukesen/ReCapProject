@@ -10,7 +10,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public BrandValidator()
         {
-            RuleFor(b => b.BrandName).MinimumLength(3);
+            RuleFor(b => b.BrandName).MinimumLength(3).WithMessage("3 karakterden fazla girmelisiniz!!");
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Business.ValidationRules.FluentValidation
     {
         public RentalValidator()
         {
-            RuleFor(r => r.CarId).NotEmpty();
+            RuleFor(r => r.CarId).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
 
-            RuleFor(r => r.CustomerId).NotEmpty();
+            RuleFor(r => r.CustomerId).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
 
-            RuleFor(r => r.RentDate).NotEmpty();
+            RuleFor(r => r.RentDate).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
         }
     }
 }

@@ -10,17 +10,17 @@ namespace Business.ValidationRules.FluentValidation
     {
         public UserValidator()
         {
-            RuleFor(u => u.FirstName).NotEmpty();
-            RuleFor(u => u.FirstName).MaximumLength(30).NotEmpty();
+            RuleFor(u => u.FirstName).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
+            RuleFor(u => u.FirstName).MaximumLength(30).WithMessage("30 karakterden fazlasını giremezsiniz!!");
 
-            RuleFor(u => u.LastName).NotEmpty();
-            RuleFor(u => u.LastName).MaximumLength(30);
+            RuleFor(u => u.LastName).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
+            RuleFor(u => u.LastName).MaximumLength(30).WithMessage("30 karakterden fazlasını giremezsiniz!!");
 
-            RuleFor(u => u.Email).NotEmpty();
-            RuleFor(u => u.Email).MaximumLength(40);
+            RuleFor(u => u.Email).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
+            RuleFor(u => u.Email).MaximumLength(40).WithMessage("40 karakterden fazlasını giremezsiniz!!");
 
-            RuleFor(u => u.Password).NotEmpty();
-            RuleFor(u => u.Password).MaximumLength(20);
+            RuleFor(u => u.Password).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
+            RuleFor(u => u.Password).MaximumLength(20).WithMessage("20 karakterden fazlasını giremezsiniz!!");
         }
     }
 }

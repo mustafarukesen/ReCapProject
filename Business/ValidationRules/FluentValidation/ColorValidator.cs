@@ -10,7 +10,7 @@ namespace Business.ValidationRules.FluentValidation
     {
         public ColorValidator()
         {
-            RuleFor(c => c.ColorName).MinimumLength(3);
+            RuleFor(c => c.ColorName).MinimumLength(3).WithMessage("3 karakterden azını giremezsiniz!!");
         }
     }
 }

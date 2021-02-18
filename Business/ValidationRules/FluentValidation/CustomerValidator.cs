@@ -10,9 +10,9 @@ namespace Business.ValidationRules.FluentValidation
     {
         public CustomerValidator()
         {
-            RuleFor(c => c.UserId).NotEmpty();
+            RuleFor(c => c.UserId).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
 
-            RuleFor(c => c.CompanyName).MinimumLength(7);
+            RuleFor(c => c.CompanyName).MinimumLength(7).WithMessage("7 karakterden fazlasını giremezsiniz!!");
         }
     }
 }
