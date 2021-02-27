@@ -36,6 +36,12 @@ namespace Business.Constants
 
         public static string CustomerList     = "Müşteriler listelendi!";
 
+        public static string CarImageAdded    = "Resim Eklendi!";
+        public static string CarImageUpdated  = "Resim Güncellendi!";
+        public static string CarImageDeleted  = "Resi Silindi!";
+        public static string CarImageList     = "Resimler listelendi!";
+        public static string CarImageLimitedError = "Ekleme işlemi başarısız. Araba resmi için limitiniz 5'den fazla olmamalıdır! ";
+
         public static string MaintenanceTime  = "Sistem bakımda!";
         public static string Invalid          = "Bir şeyler ters gitti :(";
     }
