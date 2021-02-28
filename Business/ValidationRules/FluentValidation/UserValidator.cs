@@ -1,4 +1,4 @@
-﻿using Entities.Concrete;
+﻿using Core.Entities.Concrete;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -18,9 +18,6 @@ namespace Business.ValidationRules.FluentValidation
 
             RuleFor(u => u.Email).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
             RuleFor(u => u.Email).MaximumLength(40).WithMessage("40 karakterden fazlasını giremezsiniz!!");
-
-            RuleFor(u => u.Password).NotEmpty().WithMessage("Bu alanı boş bırakmayınız!");
-            RuleFor(u => u.Password).MaximumLength(20).WithMessage("20 karakterden fazlasını giremezsiniz!!");
         }
     }
 }

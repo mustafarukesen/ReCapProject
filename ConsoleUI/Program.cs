@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -141,7 +142,7 @@ namespace ConsoleUI
             int deleteUser = Convert.ToInt32(Console.ReadLine());
             Console.Clear();
 
-            userManager.Delete(new User { UserId = deleteUser });
+            userManager.Delete(new User { Id = deleteUser });
         }
 
         private static void UpdateUser(UserManager userManager)
@@ -164,7 +165,7 @@ namespace ConsoleUI
             string updatePassword = Console.ReadLine();
             Console.Clear();
 
-            userManager.Update(new User { UserId = updateUser, FirstName = updateFirstName, LastName = updateLastName, Email = updateEmail, Password = updatePassword });
+            userManager.Update(new User { Id = updateUser, FirstName = updateFirstName, LastName = updateLastName, Email = updateEmail});
         }
 
         private static void AddUser(UserManager userManager)
@@ -183,7 +184,7 @@ namespace ConsoleUI
             string addPassword = Console.ReadLine();
             Console.Clear();
 
-            userManager.Add(new User { FirstName = addFirstName, LastName = addLastName, Email = addEmail, Password = addPassword });
+            userManager.Add(new User { FirstName = addFirstName, LastName = addLastName, Email = addEmail});
         }
 
         private static void CustomersList(CustomerManager customerManager)
@@ -212,7 +213,7 @@ namespace ConsoleUI
             {
                 foreach (var users in result.Data)
                 {
-                    Console.WriteLine("UserId: " + users.UserId + "\n" + "UserName: " + users.FirstName + users.LastName + "\n" + "UserEmail: " + users.Email + "\n" + "UserPassword: " + users.Password + "\n");
+                    Console.WriteLine("UserId: " + users.Id + "\n" + "UserName: " + users.FirstName + users.LastName + "\n" + "UserEmail: " + users.Email + "\n" + "UserPassword: " + "\n");
                 }
             }
 

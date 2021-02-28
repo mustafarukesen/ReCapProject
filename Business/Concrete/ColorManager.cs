@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -22,6 +23,7 @@ namespace Business.Concrete
 
         /*******************************************************************/
 
+        [SecuredOperation("color.add, admin")]
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Add(Color color)
         {
@@ -29,7 +31,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.ColorAdded);
         }
 
-
+        [SecuredOperation("color.update, admin")]
         [ValidationAspect(typeof(ColorValidator))]
         public IResult Update(Color color)
         {
