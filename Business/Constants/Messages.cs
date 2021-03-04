@@ -35,6 +35,7 @@ namespace Business.Constants
         public static string RentalAddedError     = "Ekleme işlemi başarısız. Daha önce seçilmeyen bir araç seçiniz.";
 
         public static string CustomerList         = "Müşteriler listelendi!";
+        public static string CustomerUpdated      = "Müşteri güncellendi!";
 
         public static string CarImageAdded        = "Resim Eklendi!";
         public static string CarImageUpdated      = "Resim Güncellendi!";
@@ -52,5 +53,6 @@ namespace Business.Constants
 
         public static string MaintenanceTime      = "Sistem bakımda!";
         public static string Invalid              = "Bir şeyler ters gitti :(";
+
     }
 }

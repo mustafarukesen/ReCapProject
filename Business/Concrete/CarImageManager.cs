@@ -2,6 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.FileHelper;
@@ -13,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace Business.Concrete
 {
@@ -27,6 +31,7 @@ namespace Business.Concrete
 
         /*******************************************************************/
 
+        [CacheRemoveAspect("ICarImageService.Get")]
         [SecuredOperation("carImage.add, admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Add(IFormFile file, CarImage carImage)
@@ -44,6 +49,7 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarImageAdded);
         }
 
+        [CacheRemoveAspect("ICarImageService.Get")]
         [SecuredOperation("carImage.update, admin")]
         [ValidationAspect(typeof(CarImageValidator))]
         public IResult Update(IFormFile file, CarImage carImage)
@@ -74,14 +80,29 @@ namespace Business.Concrete
             return new SuccessDataResult<CarImage>(_carImageDal.Get(ci => ci.CarImageId == carImageId));
         }
 
+        [SecuredOperation("carImage.list, admin")]
+        [CacheAspect(duration: 10)]
         public IDataResult<CarImage> GetByCarId(int carId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarId == carId));
         }
 
+        [CacheAspect]
+        [PerformanceAspect(3)]
         public IDataResult<List<CarImage>> GetAll()
         {
+            Thread.Sleep(3500);
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(), Messages.CarImageList);
+        }
+
+        /*******************************************************************/
+
+        [TransactionScopeAspect]
+        public IResult TransactionalOperation(CarImage carImage)
+        {
+            _carImageDal.Update(carImage);
+            _carImageDal.Add(carImage);
+            return new SuccessResult(Messages.CarImageUpdated);
         }
 
         /*******************************************************************/
@@ -108,6 +129,5 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
-
     }
 }

@@ -2,6 +2,9 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -12,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 
 namespace Business.Concrete
 {
@@ -26,6 +30,7 @@ namespace Business.Concrete
 
         /*******************************************************************/
 
+        [CacheRemoveAspect("IRentalService.Get")]
         [SecuredOperation("rental.add, admin")]
         [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental rental)
@@ -40,6 +45,7 @@ namespace Business.Concrete
 
         }
 
+        [CacheRemoveAspect("IRentalService.Get")]
         public IResult Update(Rental rental)
         {
 
@@ -79,14 +85,27 @@ namespace Business.Concrete
 
         /*******************************************************************/
 
+        [CacheAspect]
+        [PerformanceAspect(3)]
         public IDataResult<List<Rental>> GetAll()
         {
+            Thread.Sleep(3500);
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalList);
         }
 
         public IDataResult<List<RentalDetailDto>> GetRentalDetails()
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(), Messages.RentalDetail);
+        }
+
+        /*******************************************************************/
+
+        [TransactionScopeAspect]
+        public IResult TransactionalOperation(Rental rental)
+        {
+            _rentalDal.Update(rental);
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalUpdated);
         }
 
     }
