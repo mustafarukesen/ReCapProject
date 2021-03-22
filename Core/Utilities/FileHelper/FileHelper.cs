@@ -1,5 +1,4 @@
 ﻿using Core.Utilities.Results;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -72,12 +71,12 @@ namespace Core.Utilities.FileHelper
 
         public static (string newPath, string Path2) newPath(IFormFile file)
         {
-            System.IO.FileInfo ff = new System.IO.FileInfo(file.FileName);
+            FileInfo ff = new FileInfo(file.FileName);
             string fileExtension = ff.Extension;
 
-            var newPath = Guid.NewGuid().ToString("N") + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + fileExtension;
+            var newPath = Guid.NewGuid().ToString() + "_" + DateTime.Now.Month + "_" + DateTime.Now.Day + "_" + DateTime.Now.Year + fileExtension;
 
-            string path = Environment.CurrentDirectory + @"\Images\CarImages";
+            string path = Environment.CurrentDirectory + @"\wwwroot\Images";
             string result = $@"{path}\{newPath}";
             return (result, $"\\Images\\{newPath}");
         }
